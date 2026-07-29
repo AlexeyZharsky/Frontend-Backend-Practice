@@ -1,7 +1,17 @@
+import Link from 'next/link'
+
 const NotFound = () => {
   return (
-    <div>
-      NotFound
+    <div className='min-h-screen flex flex-col items-center justify-center text-center px-4'>
+      <h1 className='text-7xl font-bold mb-4'>
+        404
+      </h1>
+      <p className='text-neutral-700 mb-6'>
+        This page does not exist. Or maybe it moved.
+      </p>
+      <Link href='/'>
+        ← Back to home
+      </Link>
     </div>
   )
 }
