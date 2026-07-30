@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import Menu from './Menu'
 
 const Header = () => {
   return(
@@ -17,11 +18,7 @@ const Header = () => {
         />
       </Link>
 
-      <nav className='flex gap-6 text-white/80'>
-        <Link href='/'>Home</Link>
-        <Link href='/'>Explore</Link>
-        <Link href='/'>Profile</Link>
-      </nav>
+      <Menu />
     </header>
   )
 }
