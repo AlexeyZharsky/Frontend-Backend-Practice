@@ -1,0 +1,32 @@
+model Like {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  videoId String
+  video   Video  @relation(fields: [videoId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@unique([userId, videoId])
+  @@map("likes")
+}
+
+model Comment {
+  id String @id @default(cuid())
+
+  text String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  videoId String
+  video   Video  @relation(fields: [videoId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("comments")
+}
