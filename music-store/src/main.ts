@@ -1,5 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import 'dotenv/config';
 import expressBasicAuth from 'express-basic-auth';
 import { AppModule } from './app.module';
 import { ADMIN_LOGIN, ADMIN_PASSWORD } from './config';

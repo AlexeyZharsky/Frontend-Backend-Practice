@@ -16,4 +16,12 @@ export class ReadManyAuthorsQueryDTO {
   @IsOptional()
   @Min(1)
   pageNumber: number = 1;
+
+  get take(): number {
+    return this.pageSize;
+  }
+
+  get skip(): number {
+    return (this.pageNumber - 1) * this.pageSize;
+  }
 }

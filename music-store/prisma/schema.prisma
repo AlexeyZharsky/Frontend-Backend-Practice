@@ -10,7 +10,7 @@ datasource db {
 model Artist {
   id String @id @default(uuid()) @db.Uuid()
 
-  name        String  @db.VarChar(64)
+  name        String  @unique @db.VarChar(64)
   country     String  @db.VarChar(32)
   description String? @db.VarChar(1024)
 

@@ -46,7 +46,7 @@ export class AuthorsController {
   }
 
   @Delete(':id')
-  delete(@Param() id: string): Promise<void> {
-    return this.authorsService.delete(id);
+  async delete(@Param('id') id: string): Promise<void> {
+    await this.authorsService.delete(id);
   }
 }

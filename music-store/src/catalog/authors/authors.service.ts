@@ -1,4 +1,5 @@
-import { Injectable, NotImplementedException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from 'generated/prisma/client';
 import { PrismaService } from '../prisma';
 import {
   ReadAuthorDTO,
@@ -11,35 +12,57 @@ import { CreateAuthorDTO } from './dto/create.author.dto';
 export class AuthorsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  get(query: ReadManyAuthorsQueryDTO): Promise<ReadManyAuthorsDTO> {
-    console.log(query);
+  async get(query: ReadManyAuthorsQueryDTO): Promise<ReadManyAuthorsDTO> {
+    const name: Prisma.StringFilter | undefined = query.search
+      ? { contains: query.search, mode: 'insensitive' }
+      : undefined;
 
-    throw new NotImplementedException();
+    const count = await this.prisma.artist.count({ where: { name } });
+
+    const data = await this.prisma.artist.findMany({
+      take: query.take,
+      skip: query.skip,
+      where: {
+        name: name,
+      },
+    });
+
+    return {
+      count,
+      data,
+    };
   }
 
-  getOne(id: string): Promise<ReadAuthorDTO> {
-    console.log(id);
+  async getOne(id: string): Promise<ReadAuthorDTO> {
+    const artist = await this.prisma.artist.findFirst({
+      where: {
+        id,
+      },
+    });
 
-    throw new NotImplementedException();
+    if (!artist) {
+      throw new NotFoundException();
+    }
+
+    return artist;
   }
 
   async create(data: CreateAuthorDTO): Promise<string> {
-    const author = await this.prisma.artist.create({
+    const artist = await this.prisma.artist.create({
       data,
     });
 
-    return author.id;
+    return artist.id;
   }
 
-  update(id: string, data: CreateAuthorDTO): Promise<void> {
-    console.log(id);
-
-    console.log(data);
-
-    throw new NotImplementedException();
+  async update(id: string, data: CreateAuthorDTO): Promise<void> {
+    await this.prisma.artist.update({
+      where: { id },
+      data,
+    });
   }
 
-  delete(id: string): Promise<void> {
-    throw new NotImplementedException();
+  async delete(id: string): Promise<void> {
+    await this.prisma.artist.delete({ where: { id } });
   }
 }

@@ -12,6 +12,4 @@ export class ReadAuthorDTO {
   dateOfBirth: Date;
 
   dateOfDeath: Date | null;
-
-  albumsTotal: number;
 }
