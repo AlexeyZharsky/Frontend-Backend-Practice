@@ -1,4 +1,5 @@
 import { Injectable, NotImplementedException } from '@nestjs/common';
+import { PrismaService } from '../prisma';
 import {
   ReadAuthorDTO,
   ReadManyAuthorsDTO,
@@ -8,6 +9,8 @@ import { CreateAuthorDTO } from './dto/create.author.dto';
 
 @Injectable()
 export class AuthorsService {
+  constructor(private readonly prisma: PrismaService) {}
+
   get(query: ReadManyAuthorsQueryDTO): Promise<ReadManyAuthorsDTO> {
     console.log(query);
 
@@ -20,10 +23,12 @@ export class AuthorsService {
     throw new NotImplementedException();
   }
 
-  create(data: CreateAuthorDTO): Promise<string> {
-    console.log(data);
+  async create(data: CreateAuthorDTO): Promise<string> {
+    const author = await this.prisma.artist.create({
+      data,
+    });
 
-    throw new NotImplementedException();
+    return author.id;
   }
 
   update(id: string, data: CreateAuthorDTO): Promise<void> {
